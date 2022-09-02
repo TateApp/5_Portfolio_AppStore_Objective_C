@@ -20,6 +20,7 @@
 		C73086BF28C131E200093134 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086BE28C131E200093134 /* Search.m */; };
 		C73086C228C131EE00093134 /* Apps.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C128C131EE00093134 /* Apps.m */; };
 		C73086C628C1337700093134 /* APICaller.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C528C1337700093134 /* APICaller.m */; };
+		C73086C928C13CC000093134 /* SearchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C828C13CC000093134 /* SearchResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		C73086C128C131EE00093134 /* Apps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Apps.m; sourceTree = "<group>"; };
 		C73086C428C1337700093134 /* APICaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APICaller.h; sourceTree = "<group>"; };
 		C73086C528C1337700093134 /* APICaller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APICaller.m; sourceTree = "<group>"; };
+		C73086C728C13CC000093134 /* SearchResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResponse.h; sourceTree = "<group>"; };
+		C73086C828C13CC000093134 /* SearchResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +150,8 @@
 		C73086B628C1303700093134 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C73086C728C13CC000093134 /* SearchResponse.h */,
+				C73086C828C13CC000093134 /* SearchResponse.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73086C928C13CC000093134 /* SearchResponse.m in Sources */,
 				C730868928C12FFD00093134 /* TabBarController.m in Sources */,
 				C73086C228C131EE00093134 /* Apps.m in Sources */,
 				C730868328C12FFD00093134 /* AppDelegate.m in Sources */,

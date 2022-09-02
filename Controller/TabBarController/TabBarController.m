@@ -8,7 +8,7 @@
 #import "TabBarController.h"
 #import "Apps.h"
 #import "Search.h"
-
+#import "APICaller.h"
 @interface TabBarController ()
 
 @property NSArray<UIViewController * > * viewControlleArray;
@@ -35,25 +35,29 @@
      
     
     
-    self.viewControlleArray = [[NSArray alloc] initWithObjects:[Apps new], [Search new], nil];
+    self.viewControlleArray = [[NSArray alloc] initWithObjects:[Search new], nil];
     
     self.selectedIndex = 0;
     
     self.viewControllers = self.viewControlleArray;
     
+//    //MARK: -
+//    [self.viewControllers objectAtIndex:0].title = @"Apps";
+//    [self.viewControllers objectAtIndex:0].tabBarItem.image = [[UIImage imageNamed:@"Apps"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    [self.viewControllers objectAtIndex:0].tabBarItem.selectedImage = [[UIImage imageNamed:@"Apps Selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//
+//    [self.viewControllers objectAtIndex:0].tabBarItem.imageInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+    
     //MARK: -
-    [self.viewControllers objectAtIndex:0].title = @"Apps";
-    [self.viewControllers objectAtIndex:0].tabBarItem.image = [[UIImage imageNamed:@"Apps"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.viewControllers objectAtIndex:0].tabBarItem.selectedImage = [[UIImage imageNamed:@"Apps Selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.viewControllers objectAtIndex:0].title = @"Search";
+    [self.viewControllers objectAtIndex:0].tabBarItem.image = [[UIImage imageNamed:@"Search"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.viewControllers objectAtIndex:0].tabBarItem.selectedImage = [[UIImage imageNamed:@"Search Selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     [self.viewControllers objectAtIndex:0].tabBarItem.imageInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    //MARK: -
-    [self.viewControllers objectAtIndex:1].title = @"Search";
-    [self.viewControllers objectAtIndex:1].tabBarItem.image = [[UIImage imageNamed:@"Search"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.viewControllers objectAtIndex:1].tabBarItem.selectedImage = [[UIImage imageNamed:@"Search Selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    [self.viewControllers objectAtIndex:1].tabBarItem.imageInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+
+    
 }
 
 @end

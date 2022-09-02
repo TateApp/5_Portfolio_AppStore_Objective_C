@@ -6,7 +6,7 @@
 //
 
 #import "Apps.h"
-
+#import "APICaller.h"
 @interface Apps ()
 
 @end
@@ -18,6 +18,19 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = UIColor.redColor;
+    
+    
+//    [APICaller.shared generic: ^(NSArray<NSString * > * Search){
+//
+//
+//        for (SearchResponse * searchResponse in Search) {
+//            NSLog(@"Search Response %@", searchResponse.artistName);
+//        }
+//    }];
+    
+    
+    
+    
     
 }
 
