@@ -7,7 +7,10 @@
 
 #import "Search.h"
 #import "APICaller.h"
-@interface Search () <UIScrollViewDelegate, UICollectionViewDelegateFlow, UICollectionViewDataSource>
+#import "CustomImageView.h"
+#import "AppViewController.h"
+#import "Seperator.h"
+@interface Search () <UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>
 
 @property UIScrollView * scrollView ;
 @property UIView * contentView;
@@ -22,6 +25,9 @@
 @property UILabel * suggested;
 
 @property UICollectionView * collectionView;
+
+@property (retain) NSArray<SearchResponse * >* data;
+
 
 @end
 
@@ -38,12 +44,38 @@
     return 1;
     
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"%@", [self.data objectAtIndex:indexPath.row].trackID);
+    [self.navigationController pushViewController: [[AppViewController alloc] initWithID: [self.data objectAtIndex:indexPath.row].trackID] animated:true];
+    
+}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return 5;
+    
+    return self.data.count;
+    
+}
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+ 
+    
+    SearchCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Search" forIndexPath:indexPath];
+    
+    
+    [cell setup:[self.data objectAtIndex:indexPath.row]];
+    
+    return cell;
+    
+    
     
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return CGSizeMake(collectionView.frame.size.width, 90);
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -58,6 +90,9 @@
     [self setupModel];
     
     
+    
+    
+    
   
 }
 - (void) setupModel {
@@ -65,6 +100,15 @@
     [APICaller.shared search:@"Apple" number:@"5" :^(NSArray<SearchResponse *> * Search) {
         NSLog(@"Search: %@", Search);
 
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            self.data = Search;
+            
+            [self setupCollectionView];
+            
+            });
+        
+        
     }];
 }
 
@@ -75,12 +119,12 @@
     [self.view addSubview:self.scrollView];
     
     self.scrollView.translatesAutoresizingMaskIntoConstraints = false;
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-    self.scrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, 1000);
-    self.scrollView.backgroundColor = UIColor.redColor;
+    self.scrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, 1500);
+    self.scrollView.backgroundColor = UIColor.whiteColor;
     self.scrollView.delegate = self;
     
     self.contentView = [UIView new];
@@ -240,37 +284,118 @@
     self.collectionView.translatesAutoresizingMaskIntoConstraints = false;
     [self.collectionView.topAnchor constraintEqualToAnchor:self.suggested.bottomAnchor constant:20].active = YES;
     [self.collectionView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:10].active = YES;
-    [self.collectionView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:10].active = YES;
-    [self.collectionView.heightAnchor constraintEqualToConstant:200].active = YES;
+    [self.collectionView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-10].active = YES;
+    [self.collectionView.heightAnchor constraintEqualToConstant:1000].active = YES;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    [self.collectionView registerClass:SearchCell.class forCellWithReuseIdentifier:@"Search"];
+    self.collectionView.scrollEnabled = false;
+    
     
 }
 @end
 
 
-@interface Seperator()
+
+
+
+
+
+@interface SearchCell()
+
+@property UILabel * topLabel;
+
+@property UILabel * bottomLabel;
+
+@property CustomImageView * image ;
+
+@property UIButton * getButton;
+
 
 @end
 
-@implementation Seperator
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+@implementation SearchCell
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    
     self = [super initWithFrame:frame];
+
     if (self) {
         
-        self.translatesAutoresizingMaskIntoConstraints = false;
+        self.image = [[CustomImageView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:self.image];
+        self.image.translatesAutoresizingMaskIntoConstraints = false;
+        [self.image.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+        [self.image.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:10].active = YES;
         
-        [self.heightAnchor constraintEqualToConstant:1].active = YES;
-        [self.widthAnchor constraintEqualToConstant:UIScreen.mainScreen.bounds.size.width - 20].active = YES;
+        [self.image.widthAnchor constraintEqualToConstant:70].active = YES;
+        [self.image.heightAnchor constraintEqualToConstant:70].active = YES;
         
-        self.backgroundColor = UIColor.systemGray6Color;
+        
+        
+        
+        self.image.layer.cornerRadius = 10;
+        self.image.clipsToBounds = true;
+        
+        
+        
+        
+        self.topLabel = [UILabel new];
+        [self.contentView addSubview:self.topLabel];
+        self.topLabel.translatesAutoresizingMaskIntoConstraints = false;
+        [self.topLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:10].active = YES;
+        [self.topLabel.leadingAnchor constraintEqualToAnchor:self.image.trailingAnchor constant:10].active = YES;
+        self.topLabel.text = @"Top Label";
+        
+        //MARK: -
+        self.getButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [self.contentView addSubview:self.getButton];
+        self.getButton.translatesAutoresizingMaskIntoConstraints = false;
+        [self.getButton.widthAnchor constraintEqualToConstant:75].active = YES;
+        [self.getButton.heightAnchor constraintEqualToConstant:25].active = YES;
+        [self.getButton setTitle:@"GET" forState:UIControlStateNormal];
+        self.getButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        self.getButton.layer.cornerRadius = 12.5;
+        self.getButton.backgroundColor = [UIColor.systemGray3Color colorWithAlphaComponent:0.95];
+      
+        [self.getButton.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+        [self.getButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-10].active = YES;
+        
+        //MARK: -
+        self.bottomLabel = [UILabel new];
+        [self.contentView addSubview:self.bottomLabel];
+        self.bottomLabel.translatesAutoresizingMaskIntoConstraints = false;
+        [self.bottomLabel.topAnchor constraintEqualToAnchor:self.topLabel.bottomAnchor constant:10].active = YES;
+        [self.bottomLabel.leadingAnchor constraintEqualToAnchor:self.image.trailingAnchor constant:10].active = YES;
+        self.bottomLabel.text = @"Bottom Label";
+        
+        [self.bottomLabel.trailingAnchor constraintEqualToAnchor:self.getButton.leadingAnchor constant:-10].active = YES;
+        [self.bottomLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-10].active = YES;
+        
+        
+        Seperator * seperator = [Seperator new];
+        
+        [self.contentView addSubview:seperator];
+        seperator.translatesAutoresizingMaskIntoConstraints = false;
+        [seperator.leadingAnchor constraintEqualToAnchor:self.image.trailingAnchor constant:10].active = YES;
+        [seperator.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10].active = YES;
+        [seperator.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+
         
     }
+    
     return self;
+    
+}
+
+- (void) setup: (SearchResponse * )search {
+    
+    self.topLabel.text = search.trackName;
+    
+    self.bottomLabel.text = search.theDescription;
+    
+    [self.image loadImage:search.artworkUrl60];
 }
 
 @end
-
-

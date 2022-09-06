@@ -6,14 +6,19 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SearchResponse.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Search : UIViewController
 
 @end
 
-@interface Seperator : UIView
+
+
+@interface SearchCell : UICollectionViewCell
+
+- (void) setup: (SearchResponse * )search;
+
 
 @end
 

@@ -21,6 +21,10 @@
 		C73086C228C131EE00093134 /* Apps.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C128C131EE00093134 /* Apps.m */; };
 		C73086C628C1337700093134 /* APICaller.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C528C1337700093134 /* APICaller.m */; };
 		C73086C928C13CC000093134 /* SearchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086C828C13CC000093134 /* SearchResponse.m */; };
+		C73086CC28C26BA400093134 /* CustomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086CB28C26BA400093134 /* CustomImageView.m */; };
+		C73086D028C2807100093134 /* AppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086CF28C2807100093134 /* AppViewController.m */; };
+		C73086D528C2814A00093134 /* AppResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086D428C2814A00093134 /* AppResponse.m */; };
+		C73086D828C39D5000093134 /* Seperator.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086D728C39D5000093134 /* Seperator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,14 @@
 		C73086C528C1337700093134 /* APICaller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APICaller.m; sourceTree = "<group>"; };
 		C73086C728C13CC000093134 /* SearchResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResponse.h; sourceTree = "<group>"; };
 		C73086C828C13CC000093134 /* SearchResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResponse.m; sourceTree = "<group>"; };
+		C73086CA28C26BA400093134 /* CustomImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageView.h; sourceTree = "<group>"; };
+		C73086CB28C26BA400093134 /* CustomImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomImageView.m; sourceTree = "<group>"; };
+		C73086CE28C2807100093134 /* AppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppViewController.h; sourceTree = "<group>"; };
+		C73086CF28C2807100093134 /* AppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppViewController.m; sourceTree = "<group>"; };
+		C73086D328C2814A00093134 /* AppResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppResponse.h; sourceTree = "<group>"; };
+		C73086D428C2814A00093134 /* AppResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppResponse.m; sourceTree = "<group>"; };
+		C73086D628C39D5000093134 /* Seperator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Seperator.h; sourceTree = "<group>"; };
+		C73086D728C39D5000093134 /* Seperator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Seperator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,8 +162,8 @@
 		C73086B628C1303700093134 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C73086C728C13CC000093134 /* SearchResponse.h */,
-				C73086C828C13CC000093134 /* SearchResponse.m */,
+				C73086D228C2813700093134 /* AppResponse */,
+				C73086D128C2813000093134 /* SearchResponse */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,6 +171,10 @@
 		C73086B728C1303A00093134 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C73086CA28C26BA400093134 /* CustomImageView.h */,
+				C73086CB28C26BA400093134 /* CustomImageView.m */,
+				C73086D628C39D5000093134 /* Seperator.h */,
+				C73086D728C39D5000093134 /* Seperator.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -166,6 +182,7 @@
 		C73086B828C1304000093134 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C73086CD28C2804D00093134 /* AppViewController */,
 				C73086BC28C131C100093134 /* TabBarController */,
 				C73086BB28C131BC00093134 /* Apps */,
 				C73086BA28C131B800093134 /* Search */,
@@ -218,6 +235,33 @@
 				C73086C528C1337700093134 /* APICaller.m */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		C73086CD28C2804D00093134 /* AppViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C73086CE28C2807100093134 /* AppViewController.h */,
+				C73086CF28C2807100093134 /* AppViewController.m */,
+			);
+			path = AppViewController;
+			sourceTree = "<group>";
+		};
+		C73086D128C2813000093134 /* SearchResponse */ = {
+			isa = PBXGroup;
+			children = (
+				C73086C728C13CC000093134 /* SearchResponse.h */,
+				C73086C828C13CC000093134 /* SearchResponse.m */,
+			);
+			path = SearchResponse;
+			sourceTree = "<group>";
+		};
+		C73086D228C2813700093134 /* AppResponse */ = {
+			isa = PBXGroup;
+			children = (
+				C73086D328C2814A00093134 /* AppResponse.h */,
+				C73086D428C2814A00093134 /* AppResponse.m */,
+			);
+			path = AppResponse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,14 +394,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73086D028C2807100093134 /* AppViewController.m in Sources */,
 				C73086C928C13CC000093134 /* SearchResponse.m in Sources */,
 				C730868928C12FFD00093134 /* TabBarController.m in Sources */,
+				C73086D528C2814A00093134 /* AppResponse.m in Sources */,
+				C73086CC28C26BA400093134 /* CustomImageView.m in Sources */,
 				C73086C228C131EE00093134 /* Apps.m in Sources */,
 				C730868328C12FFD00093134 /* AppDelegate.m in Sources */,
 				C73086BF28C131E200093134 /* Search.m in Sources */,
 				C730869428C12FFE00093134 /* main.m in Sources */,
 				C73086C628C1337700093134 /* APICaller.m in Sources */,
 				C730868628C12FFD00093134 /* SceneDelegate.m in Sources */,
+				C73086D828C39D5000093134 /* Seperator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

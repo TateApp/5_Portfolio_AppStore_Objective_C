@@ -23,7 +23,10 @@
     
     [window makeKeyAndVisible];
     
-    [window setRootViewController:[TabBarController new]];
+    
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[TabBarController new]];
+    [nav setNavigationBarHidden:true];
+    [window setRootViewController: nav];
     
     
     self.window = window;

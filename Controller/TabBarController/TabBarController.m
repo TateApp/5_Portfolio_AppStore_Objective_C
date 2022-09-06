@@ -21,6 +21,8 @@
     [super viewDidLoad];
 
     
+    self.navigationController.navigationBar.hidden = true;
+    
     self.view.backgroundColor = UIColor.whiteColor;
     
     [self setupTabBar];
