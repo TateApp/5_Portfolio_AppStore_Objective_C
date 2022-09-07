@@ -9,16 +9,19 @@
 #import "APICaller.h"
 #import "CustomImageView.h"
 #import "Seperator.h"
-@interface AppViewController ()
+#import "ReviewCollectionView.h"
+@interface AppViewController () <UIScrollViewDelegate>
 
 @property (retain) AppResponse * app;
 @property CGFloat * extraHeight;
 @property BOOL stateOfMoreButton;
 
 
-@property UIView * topBar;
+@property UIVisualEffectView * topBar;
 @property UIButton * backButton;
 @property UIButton * downloadButtonTop;
+@property CustomImageView *  smallAppIcon;
+
 
 //MARK: -
 @property UIScrollView * scrollView;
@@ -37,22 +40,17 @@
 //MARK: -
 
 @property UIScrollView * scrollView2;
-@property UIView * contentView2;
+@property UIStackView * HStack ;
 
-@property UILabel * ratingsLabelNumber;
-@property UILabel * ratingsLabel;
+//MARK: -
+@property UIView * Box1;
 
-@property UILabel * ageLabelText;
-@property UILabel * ageLabel;
 
-@property UILabel * categoryLabelText;
-@property UILabel * categoryLabel;
+@property UIView * Box2;
+@property UIView * Box3;
+@property UIView * Box4;
 
-@property UILabel * developerLabelText;
-@property UILabel * developerLabel;
 
-@property UILabel * languageLabelText;
-@property UILabel * languageLabel;
 
 //MARK: -
 @property Seperator * descriptionSeperator;
@@ -69,10 +67,38 @@
 
 @property ScreenShotCollectionView * screenShotCollectionView ;
 
+
+//MARK: -
+@property UILabel * reviewLabel;
+
+@property ReviewCollectionView * reviewCollectionView;
+
+
 @end
 
 @implementation AppViewController
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    
+    NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.y > 100)  {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.smallAppIcon.alpha = 1.0;
+        }];
+        
+       
+        
+    } else {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.smallAppIcon.alpha = 0.0;
+        }];
+        
+    }
+}
 
 - (instancetype) initWithID: (NSString * ) appID {
     
@@ -87,9 +113,18 @@
             
             self.app = appResponse;
             
-            [self setupView];
+            [APICaller.shared review:self.app.trackId :^(NSArray<ReviewResponse * > * reviewResponse) {
+                
+                self.reviews = reviewResponse;
+                
+                [self setupView];
+                
+            }];
+            
+          
             
         }];
+        
         
     }
     
@@ -125,12 +160,17 @@
     
     [self setupDescription];
     
+    [self setupReviewCollectionView];
+    
+    [self.view sendSubviewToBack:self.scrollView];
+    
     
 }
 
 - (void) setupTopBar  {
     
-    self.topBar = [UIView new];
+    
+    self.topBar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular ]];
     
     [self.view addSubview:self.topBar];
     self.topBar.translatesAutoresizingMaskIntoConstraints = false;
@@ -139,20 +179,41 @@
     [self.topBar.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.topBar.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.topBar.heightAnchor constraintEqualToConstant:100].active = YES;
-    self.topBar.backgroundColor = UIColor.redColor;
+   
+    
+    
+    
+    
+    self.smallAppIcon = [[CustomImageView alloc] initWithFrame:CGRectZero];
+    
+    [self.smallAppIcon loadImage:self.app.artworkUrl512];
+    
+    [self.topBar.contentView addSubview:self.smallAppIcon];
+    self.smallAppIcon.translatesAutoresizingMaskIntoConstraints = false;
+    [self.smallAppIcon.centerYAnchor constraintEqualToAnchor:self.topBar.centerYAnchor constant:20].active = YES;
+    [self.smallAppIcon.centerXAnchor constraintEqualToAnchor:self.topBar.centerXAnchor].active = YES;
+    
+    [self.smallAppIcon.widthAnchor constraintEqualToConstant:30].active = YES;
+    [self.smallAppIcon.heightAnchor constraintEqualToConstant:30].active = YES;
+    self.smallAppIcon.layer.cornerRadius = 7.5;
+    self.smallAppIcon.clipsToBounds = true;
+    self.smallAppIcon.alpha = 0.0;
     
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.topBar addSubview:self.backButton];
+    [self.topBar.contentView addSubview:self.backButton];
     self.backButton.translatesAutoresizingMaskIntoConstraints = false;
     [self.backButton setTitle:@"< Search" forState:UIControlStateNormal];
-    [self.backButton.bottomAnchor constraintEqualToAnchor:self.topBar.bottomAnchor].active = YES;
+    [self.backButton.centerYAnchor constraintEqualToAnchor:self.smallAppIcon.centerYAnchor].active = YES;
     [self.backButton.leadingAnchor constraintEqualToAnchor:self.topBar.leadingAnchor constant:10].active = YES;
     self.backButton.titleLabel.font = [UIFont systemFontOfSize:20];
     [self.backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void) backButtonPressed: (UIButton *) sender {
+    
+    [self.navigationController popViewControllerAnimated:true];
     
     
     
@@ -167,12 +228,13 @@
     
     [self.view addSubview: self.scrollView];
     self.scrollView.translatesAutoresizingMaskIntoConstraints = false;
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.self.topBar.bottomAnchor].active = YES;
+    [self.scrollView.topAnchor constraintEqualToAnchor:self.topBar.bottomAnchor constant:-50].active = YES;
     [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-    self.scrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, 1000);
+    self.scrollView.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, 900);
     self.scrollView.backgroundColor = UIColor.whiteColor;
+    self.scrollView.delegate = self;
     
     
     //MARK: -
@@ -180,7 +242,7 @@
     self.contentView = [UIView new];
     [self.scrollView addSubview:self.contentView];
     self.contentView.translatesAutoresizingMaskIntoConstraints = false;
-    [self.contentView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
+    [self.contentView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:50].active = YES;
     [self.contentView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor].active = YES;
     [self.contentView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor].active = YES;
     [self.contentView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor].active = YES;
@@ -189,6 +251,7 @@
     
     self.contentView.backgroundColor = UIColor.whiteColor;
     
+  
     
     
 }
@@ -257,21 +320,61 @@
     [self.scrollView2.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:10].active = YES;
     [self.scrollView2.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-10].active = YES;
     [self.scrollView2.heightAnchor constraintEqualToConstant:100].active = YES;
-    self.scrollView2.backgroundColor = UIColor.redColor;
-    self.scrollView2.contentSize = CGSizeMake(1000, 100);
+    self.scrollView2.backgroundColor = UIColor.whiteColor;
+    self.scrollView2.contentSize = CGSizeMake(440, 100);
     
     //MARK: -
-    self.contentView2 = [UIView new];
-    [self.scrollView2 addSubview:self.contentView2];
-     self.contentView2.translatesAutoresizingMaskIntoConstraints = false;
-    [self.contentView2.topAnchor constraintEqualToAnchor:self.scrollView2.topAnchor].active = YES;
-    [self.contentView2.leadingAnchor constraintEqualToAnchor:self.scrollView2.leadingAnchor].active = YES;
-    [self.contentView2.trailingAnchor constraintEqualToAnchor:self.scrollView2.trailingAnchor].active = YES;
-    [self.contentView2.bottomAnchor constraintEqualToAnchor:self.scrollView2.bottomAnchor].active = YES;
-    [self.contentView2.widthAnchor constraintEqualToConstant:self.scrollView2.contentSize.width].active = YES;
-    [self.contentView2.heightAnchor constraintEqualToConstant:self.scrollView2.contentSize.height].active = YES;
+    self.HStack = [UIStackView new];
+    [self.scrollView2 addSubview:self.HStack];
+     self.HStack.translatesAutoresizingMaskIntoConstraints = false;
+    [self.HStack.topAnchor constraintEqualToAnchor:self.scrollView2.topAnchor].active = YES;
+    [self.HStack.leadingAnchor constraintEqualToAnchor:self.scrollView2.leadingAnchor].active = YES;
+    [self.HStack.trailingAnchor constraintEqualToAnchor:self.scrollView2.trailingAnchor].active = YES;
+    [self.HStack.bottomAnchor constraintEqualToAnchor:self.scrollView2.bottomAnchor].active = YES;
+    [self.HStack.widthAnchor constraintEqualToConstant:self.scrollView2.contentSize.width].active = YES;
+    [self.HStack.heightAnchor constraintEqualToConstant:self.scrollView2.contentSize.height].active = YES;
     
     //MARK: -
+    self.Box1 = [UIView new];
+    self.Box1.translatesAutoresizingMaskIntoConstraints = false;
+    [self.Box1.widthAnchor constraintEqualToConstant:100].active = YES;
+    [self.Box1.heightAnchor constraintEqualToConstant:100].active = YES;
+    self.Box1.backgroundColor = UIColor.redColor;
+    
+    
+    //MARK: -
+    self.Box2 = [UIView new];
+    self.Box2.translatesAutoresizingMaskIntoConstraints = false;
+    [self.Box2.widthAnchor constraintEqualToConstant:100].active = YES;
+    [self.Box2.heightAnchor constraintEqualToConstant:100].active = YES;
+    self.Box2.backgroundColor = UIColor.blueColor;
+    
+    //MARK: -
+    self.Box3 = [UIView new];
+    self.Box3.translatesAutoresizingMaskIntoConstraints = false;
+    [self.Box3.widthAnchor constraintEqualToConstant:100].active = YES;
+    [self.Box3.heightAnchor constraintEqualToConstant:100].active = YES;
+    self.Box3.backgroundColor = UIColor.greenColor;
+    
+    //MARK: -
+    self.Box4 = [UIView new];
+    self.Box4.translatesAutoresizingMaskIntoConstraints = false;
+    [self.Box4.widthAnchor constraintEqualToConstant:100].active = YES;
+    [self.Box4.heightAnchor constraintEqualToConstant:100].active = YES;
+    self.Box4.backgroundColor = UIColor.yellowColor;
+    
+    [self.HStack addArrangedSubview:self.Box1];
+    [self.HStack addArrangedSubview:self.Box2];
+    [self.HStack addArrangedSubview:self.Box3];
+    [self.HStack addArrangedSubview:self.Box4];
+    
+    UIView * spacer = [UIView new];
+    [self.HStack addArrangedSubview:spacer];
+    
+    self.HStack.distribution = UIStackViewDistributionFillProportionally;
+    self.HStack.axis = UILayoutConstraintAxisHorizontal;
+    self.HStack.spacing = 10;
+    
     
     
 }
@@ -367,6 +470,33 @@
         self.stateOfMoreButton = false;
     }
     
+}
+
+- (void) setupReviewCollectionView  {
+    
+    self.reviewLabel = [UILabel new];
+    [self.contentView addSubview:self.reviewLabel];
+    self.reviewLabel.translatesAutoresizingMaskIntoConstraints = false;
+    [self.reviewLabel.topAnchor constraintEqualToAnchor:self.descriptionLabel.bottomAnchor constant:10].active = YES;
+    [self.reviewLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:10].active = YES;
+    self.reviewLabel.text = @"Reviews";
+    self.reviewLabel.font = [UIFont boldSystemFontOfSize:20];
+    
+    UICollectionViewFlowLayout * layout = [UICollectionViewFlowLayout new];
+    
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    self.reviewCollectionView = [[ReviewCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout initWithReviews:self.reviews];
+    [self.contentView addSubview:self.reviewCollectionView];
+    self.reviewCollectionView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.reviewCollectionView.topAnchor constraintEqualToAnchor:self.reviewLabel.bottomAnchor constant:20].active = YES;
+    [self.reviewCollectionView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:0].active = YES;
+    [self.reviewCollectionView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-0].active = YES;
+    [self.reviewCollectionView.heightAnchor constraintEqualToConstant:200].active = YES;
+    self.reviewCollectionView.pagingEnabled = true;
+    self.reviewCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 @end
@@ -467,3 +597,5 @@
 
 
 @end
+
+

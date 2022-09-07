@@ -25,6 +25,9 @@
 		C73086D028C2807100093134 /* AppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086CF28C2807100093134 /* AppViewController.m */; };
 		C73086D528C2814A00093134 /* AppResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086D428C2814A00093134 /* AppResponse.m */; };
 		C73086D828C39D5000093134 /* Seperator.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086D728C39D5000093134 /* Seperator.m */; };
+		C73086DC28C79EB900093134 /* ReviewResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086DB28C79EB900093134 /* ReviewResponse.m */; };
+		C73086DF28C7A41F00093134 /* ReviewCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086DE28C7A41F00093134 /* ReviewCollectionView.m */; };
+		C73086E228C7A4ED00093134 /* ReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C73086E128C7A4ED00093134 /* ReviewCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +81,12 @@
 		C73086D428C2814A00093134 /* AppResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppResponse.m; sourceTree = "<group>"; };
 		C73086D628C39D5000093134 /* Seperator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Seperator.h; sourceTree = "<group>"; };
 		C73086D728C39D5000093134 /* Seperator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Seperator.m; sourceTree = "<group>"; };
+		C73086DA28C79EB900093134 /* ReviewResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewResponse.h; sourceTree = "<group>"; };
+		C73086DB28C79EB900093134 /* ReviewResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewResponse.m; sourceTree = "<group>"; };
+		C73086DD28C7A41F00093134 /* ReviewCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewCollectionView.h; sourceTree = "<group>"; };
+		C73086DE28C7A41F00093134 /* ReviewCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewCollectionView.m; sourceTree = "<group>"; };
+		C73086E028C7A4ED00093134 /* ReviewCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewCollectionViewCell.h; sourceTree = "<group>"; };
+		C73086E128C7A4ED00093134 /* ReviewCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +171,7 @@
 		C73086B628C1303700093134 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C73086D928C79EA700093134 /* ReviewResponse */,
 				C73086D228C2813700093134 /* AppResponse */,
 				C73086D128C2813000093134 /* SearchResponse */,
 			);
@@ -175,6 +185,10 @@
 				C73086CB28C26BA400093134 /* CustomImageView.m */,
 				C73086D628C39D5000093134 /* Seperator.h */,
 				C73086D728C39D5000093134 /* Seperator.m */,
+				C73086DD28C7A41F00093134 /* ReviewCollectionView.h */,
+				C73086DE28C7A41F00093134 /* ReviewCollectionView.m */,
+				C73086E028C7A4ED00093134 /* ReviewCollectionViewCell.h */,
+				C73086E128C7A4ED00093134 /* ReviewCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -262,6 +276,15 @@
 				C73086D428C2814A00093134 /* AppResponse.m */,
 			);
 			path = AppResponse;
+			sourceTree = "<group>";
+		};
+		C73086D928C79EA700093134 /* ReviewResponse */ = {
+			isa = PBXGroup;
+			children = (
+				C73086DA28C79EB900093134 /* ReviewResponse.h */,
+				C73086DB28C79EB900093134 /* ReviewResponse.m */,
+			);
+			path = ReviewResponse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,9 +419,11 @@
 			files = (
 				C73086D028C2807100093134 /* AppViewController.m in Sources */,
 				C73086C928C13CC000093134 /* SearchResponse.m in Sources */,
+				C73086DF28C7A41F00093134 /* ReviewCollectionView.m in Sources */,
 				C730868928C12FFD00093134 /* TabBarController.m in Sources */,
 				C73086D528C2814A00093134 /* AppResponse.m in Sources */,
 				C73086CC28C26BA400093134 /* CustomImageView.m in Sources */,
+				C73086DC28C79EB900093134 /* ReviewResponse.m in Sources */,
 				C73086C228C131EE00093134 /* Apps.m in Sources */,
 				C730868328C12FFD00093134 /* AppDelegate.m in Sources */,
 				C73086BF28C131E200093134 /* Search.m in Sources */,
@@ -406,6 +431,7 @@
 				C73086C628C1337700093134 /* APICaller.m in Sources */,
 				C730868628C12FFD00093134 /* SceneDelegate.m in Sources */,
 				C73086D828C39D5000093134 /* Seperator.m in Sources */,
+				C73086E228C7A4ED00093134 /* ReviewCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

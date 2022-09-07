@@ -125,6 +125,76 @@
         
     }] resume];
 }
+- (void)review: (NSString *)query :(void (^) (NSArray<ReviewResponse*>* ))completion {
+    
+    NSString * _query = query;
+   
+    NSString * url = @"https://itunes.apple.com/rss/customerreviews/page=1/id=";
+   
+    NSString * lastPart = @"/sortby=mostrecent/json?1=eb&cc=us";
+    
+    
+    NSString * urlToParse = [NSString stringWithFormat:@"%@%@%@", url, _query, lastPart];
+    
+    
+    NSLog(@"%@",  urlToParse);
+    
+    [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString: urlToParse] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+        NSError * err;
+        
+        NSDictionary * arrayOFJSON = [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingAllowFragments error:&err];
+        
+        
+//        NSMutableArray<SearchResponse*>* searchResult = [NSMutableArray new];
+        
+      
+//        searchResult arrayByAddingObject:
+        NSDictionary * feed = arrayOFJSON[@"feed"];
+       
+        NSArray * entry = feed[@"entry"];
+        
+//        NSLog(@"%@", entry);
+        
+        NSLog(@"--------------");
+//        NSLog(@"%@",resultss);
+        NSLog(@"--------------");
+        
+//        NSLog(@"%@", feed);
+        
+        NSMutableArray<ReviewResponse *> * reviewReponse = [NSMutableArray new];
+        for (NSDictionary * keys in entry ) {
+
+//
+            NSLog(@"Author Key %@", keys[@"author"]);
+            NSLog(@" Content Key %@", keys[@"content"]);
+
+            NSDictionary * author = keys[@"author"];
+            NSDictionary * name = author[@"name"];
+            NSString * nameString = name[@"label"];
+     
+            
+            
+            NSDictionary * content = keys[@"content"];
+            NSString * contentString = content[@"label"];
+            
+            NSLog(@"Name String: %@", nameString);
+            NSLog(@"Content String: %@", contentString);
+            
+            [reviewReponse addObject: [[ReviewResponse alloc] initWithName:nameString initWithContent:contentString]];
+            
+        }
+      
+    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            completion(reviewReponse  );
+            
+            
+        });
+        
+    }] resume];
+}
 - (void)search: (NSString *)query number:(NSString *)number :(void (^) (NSArray<SearchResponse*>* ))completion {
     
     NSString * _query = [query stringByReplacingOccurrencesOfString:@" " withString:@"+"];

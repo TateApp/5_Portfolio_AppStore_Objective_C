@@ -6,13 +6,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ReviewResponse.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AppViewController : UIViewController
 
 
 @property (retain) NSString * appID;
+
+@property (retain) NSArray<ReviewResponse * > * reviews;
+
 
 - (instancetype) initWithID: (NSString * ) appID;
 

@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "SearchResponse.h"
 #import "AppResponse.h"
-
+#import "ReviewResponse.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface APICaller : NSObject
@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (void)lookup: (NSString *)query :(void (^) (AppResponse* ))completion;
+
+- (void)review: (NSString *)query :(void (^) (NSArray<ReviewResponse*>* ))completion;
 
 @end
 
